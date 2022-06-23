@@ -7,17 +7,27 @@ Empleado[] empleados = new Empleado[3];
 double totalEnSalarios = 0;
 
 
-for (int i = 0; i < 1; i++)
+for (int i = 0; i < 3; i++)
 {
-    Empleado emp = cargaEmpleados(i);
+    Empleado emp = cargarEmpleados(i);
     
     empleados[i] = emp;
+
+    totalEnSalarios = totalEnSalarios + emp.SalarioEmp;
+
 }
 
+System.Console.WriteLine("\n\n\n---------ESTADISTICAS---------");
+
+Console.WriteLine("\n\nEl monto total de lo que se paga en concepto de salarios es de $" + totalEnSalarios);
+
+System.Console.WriteLine("\n\n-------------------------------");
+
+buscarEmpleadoJubilarse(empleados);
 
 
 
-Empleado cargaEmpleados(int ID)
+Empleado cargarEmpleados(int ID)
 {
     Empleado emp = new Empleado();
 
@@ -62,7 +72,8 @@ Empleado cargaEmpleados(int ID)
         ano = int.Parse(Console.ReadLine());
     }
 
-    DateTime FechaNac = new DateTime(ano, mes, dia);
+    DateTime armarFecha = new DateTime(ano, mes, dia);
+    emp.FechaNac = armarFecha;
 
 
 
@@ -91,36 +102,37 @@ Empleado cargaEmpleados(int ID)
 
 
     //-------------------Día de ingreso a la empresa-------------------
-    Console.Write("\n\nDía de ingreso a la empresa:");
+    Console.Write("\n\nDía de ingreso a la empresa: ");
     int diaIng = int.Parse(Console.ReadLine());
 
     while ((diaIng < 0) ||  (diaIng > 31))
     {
-        Console.Write("\nError de formato.\nDía de ingreso a la empresa:");
+        Console.Write("\nError de formato.\nDía de ingreso a la empresa: ");
         diaIng = int.Parse(Console.ReadLine());
     }
 
     //-------------------Mes de ingreso a la empresa-------------------
-    Console.Write("\nMes de ingreso a la empresa:");
+    Console.Write("\nMes de ingreso a la empresa: ");
     int mesIng = int.Parse(Console.ReadLine());
 
     while ((mesIng < 0) ||  (mesIng > 12))
     {
-        Console.Write("\nError de formato.\nMes de ingreso a la empresa:");
+        Console.Write("\nError de formato.\nMes de ingreso a la empresa: ");
         mesIng = int.Parse(Console.ReadLine());
     }
 
     //-------------------Año de ingreso a la empresa-------------------
-    Console.Write("\nAño de ingreso a la empresa:");
+    Console.Write("\nAño de ingreso a la empresa: ");
     int anoIng = int.Parse(Console.ReadLine());
 
     while ((anoIng < 1000) ||  (anoIng > 2022))
     {
-        Console.Write("\nError de formato.\nAño de ingreso a la empresa:");
+        Console.Write("\nError de formato.\nAño de ingreso a la empresa: ");
         anoIng = int.Parse(Console.ReadLine());
     }
 
-    DateTime FechaIng = new DateTime(anoIng, mesIng, diaIng);
+    DateTime armarFechaIng = new DateTime(anoIng, mesIng, diaIng);
+    emp.FechaIng = armarFechaIng;
 
 
 
@@ -130,12 +142,12 @@ Empleado cargaEmpleados(int ID)
 
 
     //-------------------Cargo-------------------
-    Console.WriteLine("\n\nOpciones de cargos:\nAuxliar [0]\nAdministrativo [1]\nIngeniero [2]\nEspecialista [3]\nInvestigador [4]\nIngrese una opción:");
+    Console.WriteLine("\n\nOpciones de cargos:\nAuxliar [1]\nAdministrativo [2]\nIngeniero [3]\nEspecialista [4]\nInvestigador [5]\nIngrese una opción:");
     int dato = Convert.ToInt32(Console.ReadLine());
 
     while ((dato < 0) && (dato > 4))
     {
-        Console.WriteLine("\nError de formato.\nOpciones de cargos:\nAuxliar [0]\nAdministrativo [1]\nIngeniero [2]\nEspecialista [3]\nInvestigador [4]\nIngrese una opción:");
+        Console.WriteLine("\nError de formato.\nOpciones de cargos:\nAuxliar [1]\nAdministrativo [2]\nIngeniero [3]\nEspecialista [4]\nInvestigador [5]\nIngrese una opción:");
         dato = Convert.ToInt32(Console.ReadLine());
     };
 
@@ -167,8 +179,37 @@ Empleado cargaEmpleados(int ID)
     
     emp.SalarioEmp = emp.Salario(emp.SalarioEmp, emp.Cargos, emp.EstCivil, emp.AntiguedadEmp);
     
-    totalEnSalarios = totalEnSalarios + emp.SalarioEmp;
-
 
     return emp;
 }
+
+void mostrarEmpleado(Empleado[] empleados, int i){
+    
+    Console.WriteLine("\nNombre: " + empleados[i].Nombre);
+    Console.WriteLine("\nApellido: " + empleados[i].Apellido);
+    Console.WriteLine("\nEdad: " + empleados[i].Edad);
+    Console.WriteLine("\nAntiguedad: " + empleados[i].AntiguedadEmp);
+    Console.WriteLine("\nAños que le faltan para jubilarse: " + empleados[i].Anos);
+    Console.WriteLine("\nCargo: " + empleados[i].Cargos);
+    Console.WriteLine("\nSalario: $" + empleados[i].SalarioEmp);
+}
+
+void buscarEmpleadoJubilarse(Empleado[] empleados){
+
+    int tope = 100;
+    int indiceProximoAJub = 0;
+
+    for (int i = 0; i < 3; i++)
+    {
+        if(empleados[i].Anos < tope)
+        {
+            tope = empleados[i].Anos;
+
+            indiceProximoAJub = i;
+        }
+    }
+
+    Console.WriteLine("\n\nEl empleado más proximo a jubilarse es:");
+    mostrarEmpleado(empleados, indiceProximoAJub);
+}
+

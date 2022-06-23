@@ -28,7 +28,7 @@ public class Empleado
 
     public int Antiguedad(DateTime fechaIn)
     {
-        int AntiguedadEmp = Now.Year - fechaIn.Year;
+        AntiguedadEmp = Now.Year - fechaIn.Year;
 
         if(fechaIn.Month > Now.Month)
         {
@@ -41,7 +41,7 @@ public class Empleado
 
     public int calcularEdad(DateTime fechaNac)
     {
-        int Edad = Now.Year - fechaNac.Year;
+        Edad = Now.Year - fechaNac.Year;
 
         if(fechaNac.Month > Now.Month)
         {
